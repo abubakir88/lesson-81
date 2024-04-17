@@ -1,13 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="container">
+      <div class="actions">
+        <input required type="text" id="todoInput" placeholder="Add todo" />
+        <button type="submit" id="addTodo">Add</button>
+      </div>
+      <ul id="todoList"></ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+      function removeTodoHtml(id) {
+        const confirmed = confirm("Delete ?");
+        if (confirmed) {
+          removeTodoAction(id);
+        }
+      }
+
+      function editTodoHtml(id) {
+        const todo = store.getState().todos.find((todo) => todo.id === id);
+        const newText = prompt("Enter new text:", todo.text);
+        if (newText !== null && newText.trim() !== "") {
+          const updatedTodo = { ...todo, text: newText.trim() };
+          store.dispatch(editTodoAction(updatedTodo));
+        }
+      }
+    </script>
   </body>
 </html>
